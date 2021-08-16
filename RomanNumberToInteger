@@ -1,0 +1,44 @@
+class Solution {
+    public int romanToInt(String s) {
+        //I = 1
+        //IV = 4
+        //V I = 6
+        //X IX = 19
+        //X X I = 21
+        //M CM XC IV = 1994
+        //C C L V I = 256
+        //XC IX = 99
+        int result = 0;
+        HashMap<String,Integer> romanDigits = HashMap<>();
+        romanDigits.put("I",1);
+        romanDigits.put("V",5);
+        romanDigits.put("X",10);
+        romanDigits.put("L",50);
+        romanDigits.put("C",100);
+        romanDigits.put("D",500);
+        romanDigits.put("M",1000);
+        
+        String sl="";
+        String sr="";
+        
+        if (s.length()==0) return 0;
+        if (s.length()==1) return romanDigits.get(s);
+        
+        for (int i=0;i<s.length()-1;i++){
+            sl = s.substring(i,i+1);
+            sr = s.substring(i+1,i+2);
+            if (!sl.equals("")) {
+                if (!sr.equals("")) {
+                    if (romanDigits.get(sl)<romandDigits.get(sr)){
+                        //левый символ меньше правого, значит это одна цифра
+                        result = result + romanDigits.get(sr) - romanDigits.get(sl);
+                        i++; //мы учли оба символа
+                    } else {
+                        //левый символ равен правому или больше правого, значит левый символ отдельная цифра
+                        result += romanDigits.get(sl);
+                    }
+                }                
+            }
+        }
+    }
+}
